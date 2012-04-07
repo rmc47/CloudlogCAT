@@ -58,7 +58,10 @@ namespace CloudlogCAT
             // Populate the list of radio models
             m_RadioType.BeginUpdate();
             m_RadioType.Items.Clear();
-            m_RadioType.Items.Add(RadioModel.ElecraftK3);
+            foreach (RadioModel model in Enum.GetValues(typeof(RadioModel)))
+            {
+                m_RadioType.Items.Add(model);
+            }
             m_RadioType.EndUpdate();
             m_RadioType.SelectedIndex = 0;
 

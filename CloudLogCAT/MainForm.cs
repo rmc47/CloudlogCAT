@@ -46,14 +46,21 @@ namespace CloudlogCAT
                 }
             }
 
-            m_Radio = radioFactory.GetRadio(model, rcs);
+            try
+            {
+                m_Radio = radioFactory.GetRadio(model, rcs);
 
-            m_RadioLabel.Text = m_Radio.ToString();
+                m_RadioLabel.Text = m_Radio.ToString();
 
-            m_API = new CloudlogAPI();
-            m_UpdateThread = new Thread(UpdateFrequency);
-            m_UpdateThread.IsBackground = true;
-            m_UpdateThread.Start();
+                m_API = new CloudlogAPI();
+                m_UpdateThread = new Thread(UpdateFrequency);
+                m_UpdateThread.IsBackground = true;
+                m_UpdateThread.Start();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void m_Update_Click(object sender, EventArgs e)

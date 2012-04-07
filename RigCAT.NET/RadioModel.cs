@@ -7,8 +7,8 @@ namespace RigCAT.NET
 {
     public enum RadioModel
     {
-        Unknown = 0,
         ElecraftK3,
+        FT950,
         IcomGeneric,
     }
 }

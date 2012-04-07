@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CAT\GenericCATRadio.cs" />
     <Compile Include="Elecraft\K3.cs" />
     <Compile Include="FlowControl.cs" />
     <Compile Include="IRadio.cs" />
@@ -48,6 +49,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RadioModel.cs" />
     <Compile Include="UnsupportedRadioException.cs" />
+    <Compile Include="Yaesu\FT950.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

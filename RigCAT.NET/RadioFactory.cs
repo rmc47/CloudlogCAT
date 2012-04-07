@@ -13,6 +13,8 @@ namespace RigCAT.NET
             {
                 case RadioModel.ElecraftK3:
                     return new Elecraft.K3(connectionSettings);
+                case RadioModel.FT950:
+                    return new Yaesu.FT950(connectionSettings);
                 default:
                     throw new UnsupportedRadioException();
             }
