@@ -72,6 +72,16 @@ namespace CloudlogCAT
             m_SerialPort.EndUpdate();
             if (m_SerialPort.Items.Count > 0)
                 m_SerialPort.SelectedIndex = 0;
+
+            // Populate flow control
+            m_FlowControl.BeginUpdate();
+            m_FlowControl.Items.Clear();
+            foreach (FlowControl fc in Enum.GetValues(typeof(FlowControl)))
+            {
+                m_FlowControl.Items.Add(fc);
+            }
+            m_FlowControl.EndUpdate();
+            m_FlowControl.SelectedIndex = 0;
         }
     }
 }

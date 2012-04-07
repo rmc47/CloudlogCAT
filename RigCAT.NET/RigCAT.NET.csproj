@@ -11,7 +11,7 @@
     <RootNamespace>RigCAT.NET</RootNamespace>
     <AssemblyName>RigCAT.NET</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-	<OutputPath>$(SolutionDir)Build\$(Configuration)</OutputPath>
+    <OutputPath>$(SolutionDir)Build\$(Configuration)</OutputPath>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -40,6 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Elecraft\K3.cs" />
+    <Compile Include="FlowControl.cs" />
     <Compile Include="IRadio.cs" />
     <Compile Include="OperatingMode.cs" />
     <Compile Include="RadioConnectionSettings.cs" />

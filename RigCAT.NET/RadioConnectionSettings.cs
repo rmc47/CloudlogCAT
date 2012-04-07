@@ -11,5 +11,6 @@ namespace RigCAT.NET
         public bool UseDTR { get; set; }
         public bool UseRTS { get; set; }
         public int BaudRate { get; set; }
+        public FlowControl FlowControl { get; set; }
     }
 }

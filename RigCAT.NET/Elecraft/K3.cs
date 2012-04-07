@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO.Ports;
+using System.IO;
 
 namespace RigCAT.NET.Elecraft
 {
@@ -11,12 +12,33 @@ namespace RigCAT.NET.Elecraft
         private RadioConnectionSettings ConnectionSettings { get; set; }
         private SerialPort m_SerialPort;
         private char[] m_ReceiveBuffer = new char[0x1000];
+        private StreamWriter m_LogWriter;
 
         public K3(RadioConnectionSettings connectionSettings)
         {
             ConnectionSettings = connectionSettings;
             m_SerialPort = new SerialPort { PortName = connectionSettings.Port, BaudRate = connectionSettings.BaudRate, DtrEnable = connectionSettings.UseDTR, RtsEnable = connectionSettings.UseRTS };
+            switch (connectionSettings.FlowControl)
+            {
+                case FlowControl.None:
+                    m_SerialPort.Handshake = Handshake.None;
+                    break;
+                case FlowControl.DsrDtr:
+                case FlowControl.RtsCts:
+                    m_SerialPort.Handshake = Handshake.RequestToSend;
+                    break;
+                case FlowControl.XonXoff:
+                    m_SerialPort.Handshake = Handshake.XOnXOff;
+                    break;
+            }
             m_SerialPort.Open();
+
+            string logsFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Cloudlog\\Logs");
+            if (!Directory.Exists(logsFolder))
+                Directory.CreateDirectory(logsFolder);
+            string logPath = Path.Combine(logsFolder, "CloudlogCAT-" + DateTime.Now.ToString("yyyy-MM-dd-hhmmss") + ".txt");
+            m_LogWriter = new StreamWriter(logPath);
+            m_LogWriter.AutoFlush = true;
         }
 
         public event EventHandler<EventArgs> FrequencyChanged;
@@ -57,6 +79,8 @@ namespace RigCAT.NET.Elecraft
         {
             lock (m_SerialPort)
             {
+                m_LogWriter.WriteLine("SEND: " + cmd);
+
                 // Check the serial port is open
                 if (!m_SerialPort.IsOpen)
                 {
@@ -91,6 +115,7 @@ namespace RigCAT.NET.Elecraft
                 // Turn it into a string
                 string response = new string(m_ReceiveBuffer, 0, pos);
 
+                m_LogWriter.WriteLine("RCV: " + response);
                 return response;
             }
         }
