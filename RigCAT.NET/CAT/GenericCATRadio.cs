@@ -14,6 +14,7 @@ namespace RigCAT.NET.CAT
         private char[] m_ReceiveBuffer = new char[0x1000];
         private StreamWriter m_LogWriter;
 
+        protected abstract string RadioModelName { get; }
         protected abstract string GetModeCommand { get; }
         
         public GenericCATRadio(RadioConnectionSettings connectionSettings)
@@ -50,6 +51,8 @@ namespace RigCAT.NET.CAT
             get
             {
                 string s = SendQuery("FA;");
+                if (s.Length < 4)
+                    return 0;
                 long freq;
                 long.TryParse(s.Substring(2, s.Length - 3), out freq);
                 return freq;
@@ -64,7 +67,10 @@ namespace RigCAT.NET.CAT
         {
             get
             {
-                string response = SendQuery("MD;");
+                string response = SendQuery(GetModeCommand);
+                if (response.Length < 4)
+                    return OperatingMode.Unknown;
+
                 int modeInt;
                 if (int.TryParse(response.Substring(2, response.Length - 3), out modeInt))
                     return (OperatingMode)modeInt;

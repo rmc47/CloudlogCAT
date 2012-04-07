@@ -28,6 +28,7 @@ namespace CloudlogCAT
             RadioFactory radioFactory = new RadioFactory();
             RadioConnectionSettings rcs = new RadioConnectionSettings();
             RadioModel model;
+            string logbookUrl;
             using (ConnectionForm connForm = new ConnectionForm())
             {
                 DialogResult dr = connForm.ShowDialog(this);
@@ -38,6 +39,7 @@ namespace CloudlogCAT
                     rcs.Port = connForm.SerialPort;
                     rcs.UseDTR = connForm.UseDTR;
                     rcs.UseRTS = connForm.UseRTS;
+                    logbookUrl = connForm.LogbookURL;
                 }
                 else
                 {
@@ -52,7 +54,7 @@ namespace CloudlogCAT
 
                 m_RadioLabel.Text = m_Radio.ToString();
 
-                m_API = new CloudlogAPI();
+                m_API = new CloudlogAPI(logbookUrl);
                 m_UpdateThread = new Thread(UpdateFrequency);
                 m_UpdateThread.IsBackground = true;
                 m_UpdateThread.Start();

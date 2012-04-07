@@ -13,6 +13,11 @@ namespace RigCAT.NET.Yaesu
         {
         }
 
+        protected override string RadioModelName
+        {
+            get { return "Yaesu FT-950"; }
+        }
+
         protected override string GetModeCommand
         {
             get { return "MD0;"; }

@@ -12,16 +12,19 @@ namespace CloudlogCAT.API
     {
         private JavaScriptSerializer m_Serializer;
 
-        public CloudlogAPI()
+        private string m_UrlBase;
+
+        public CloudlogAPI(string baseUrl)
         {
             m_Serializer = new JavaScriptSerializer();
             m_Serializer.RegisterConverters(new List<JavaScriptConverter> { new CATModel.Converter() });
+            m_UrlBase = baseUrl.TrimEnd(' ', '/') + "/index.php/api/radio";
         }
 
         public void PushCAT(CATModel cat)
         {
             string catJson = m_Serializer.Serialize(cat);
-            string response = PostRequest("http://log.m0vfc.co.uk/index.php/api/radio", catJson, "application/json");
+            string response = PostRequest(m_UrlBase, catJson, "application/json");
         }
 
         private static string PostRequest(string url, string body, string bodyContentType)

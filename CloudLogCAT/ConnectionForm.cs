@@ -17,6 +17,11 @@ namespace CloudlogCAT
             InitializeComponent();
         }
 
+        public string LogbookURL
+        {
+            get { return m_LogbookURL.Text; }
+        }
+
         public RadioModel Model
         {
             get { return (RadioModel)m_RadioType.SelectedItem; }

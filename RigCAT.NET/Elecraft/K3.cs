@@ -15,6 +15,11 @@ namespace RigCAT.NET.Elecraft
         {
         }
 
+        protected override string RadioModelName
+        {
+            get { return "Elecraft K3"; }
+        }
+
         protected override string GetModeCommand
         {
             get { return "MD;"; }
