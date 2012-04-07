@@ -1,0 +1,5 @@
+
+*.suo
+Build/*
+CloudLogCAT/obj
+RigCAT.NET/obj
