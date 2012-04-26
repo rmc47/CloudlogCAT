@@ -15,6 +15,8 @@ namespace RigCAT.NET
                     return new Elecraft.K3(connectionSettings);
                 case RadioModel.FT950:
                     return new Yaesu.FT950(connectionSettings);
+                case RadioModel.IcomGeneric:
+                    return new Icom.GenericIcom(connectionSettings);
                 default:
                     throw new UnsupportedRadioException();
             }

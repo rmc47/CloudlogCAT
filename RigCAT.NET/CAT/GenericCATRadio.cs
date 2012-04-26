@@ -144,7 +144,7 @@ namespace RigCAT.NET.CAT
 
         public override string ToString()
         {
-            return string.Format("Elecraft K3, {0}, {1}", m_SerialPort.PortName, m_SerialPort.BaudRate);
+            return string.Format("{2}, {0}, {1}", m_SerialPort.PortName, m_SerialPort.BaudRate, RadioModelName);
         }
     }
 }

@@ -29,15 +29,15 @@
         private void InitializeComponent()
         {
             System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-            System.Windows.Forms.Label label2;
-            System.Windows.Forms.Label label1;
-            System.Windows.Forms.Label label3;
             System.Windows.Forms.Label label4;
+            System.Windows.Forms.Label label3;
+            System.Windows.Forms.Label label1;
+            System.Windows.Forms.Label label2;
             System.Windows.Forms.Label label5;
             System.Windows.Forms.Label label6;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ConnectionForm));
-            this.m_RadioType = new System.Windows.Forms.ComboBox();
             this.m_SerialPort = new System.Windows.Forms.ComboBox();
+            this.m_RadioType = new System.Windows.Forms.ComboBox();
             this.m_EnableDTR = new System.Windows.Forms.CheckBox();
             this.m_EnableRTS = new System.Windows.Forms.CheckBox();
             this.m_Connect = new System.Windows.Forms.Button();
@@ -45,10 +45,10 @@
             this.m_FlowControl = new System.Windows.Forms.ComboBox();
             this.m_LogbookURL = new System.Windows.Forms.TextBox();
             tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            label2 = new System.Windows.Forms.Label();
-            label1 = new System.Windows.Forms.Label();
-            label3 = new System.Windows.Forms.Label();
             label4 = new System.Windows.Forms.Label();
+            label3 = new System.Windows.Forms.Label();
+            label1 = new System.Windows.Forms.Label();
+            label2 = new System.Windows.Forms.Label();
             label5 = new System.Windows.Forms.Label();
             label6 = new System.Windows.Forms.Label();
             tableLayoutPanel1.SuspendLayout();
@@ -90,26 +90,27 @@
             tableLayoutPanel1.Size = new System.Drawing.Size(330, 249);
             tableLayoutPanel1.TabIndex = 0;
             // 
-            // label2
+            // label4
             // 
-            label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            label2.AutoSize = true;
-            label2.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            label2.Location = new System.Drawing.Point(3, 40);
-            label2.Name = "label2";
-            label2.Size = new System.Drawing.Size(81, 13);
-            label2.TabIndex = 2;
-            label2.Text = "&Radio type:";
+            label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            label4.AutoSize = true;
+            label4.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            label4.Location = new System.Drawing.Point(3, 102);
+            label4.Name = "label4";
+            label4.Size = new System.Drawing.Size(81, 13);
+            label4.TabIndex = 10;
+            label4.Text = "S&peed:";
             // 
-            // m_RadioType
+            // label3
             // 
-            this.m_RadioType.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.m_RadioType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.m_RadioType.FormattingEnabled = true;
-            this.m_RadioType.Location = new System.Drawing.Point(90, 36);
-            this.m_RadioType.Name = "m_RadioType";
-            this.m_RadioType.Size = new System.Drawing.Size(237, 21);
-            this.m_RadioType.TabIndex = 3;
+            label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            label3.AutoSize = true;
+            label3.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            label3.Location = new System.Drawing.Point(3, 133);
+            label3.Name = "label3";
+            label3.Size = new System.Drawing.Size(81, 13);
+            label3.TabIndex = 7;
+            label3.Text = "Options:";
             // 
             // label1
             // 
@@ -132,6 +133,27 @@
             this.m_SerialPort.Size = new System.Drawing.Size(237, 21);
             this.m_SerialPort.TabIndex = 5;
             // 
+            // label2
+            // 
+            label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            label2.AutoSize = true;
+            label2.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            label2.Location = new System.Drawing.Point(3, 40);
+            label2.Name = "label2";
+            label2.Size = new System.Drawing.Size(81, 13);
+            label2.TabIndex = 2;
+            label2.Text = "&Radio type:";
+            // 
+            // m_RadioType
+            // 
+            this.m_RadioType.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.m_RadioType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.m_RadioType.FormattingEnabled = true;
+            this.m_RadioType.Location = new System.Drawing.Point(90, 36);
+            this.m_RadioType.Name = "m_RadioType";
+            this.m_RadioType.Size = new System.Drawing.Size(237, 21);
+            this.m_RadioType.TabIndex = 3;
+            // 
             // m_EnableDTR
             // 
             this.m_EnableDTR.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
@@ -142,17 +164,6 @@
             this.m_EnableDTR.TabIndex = 6;
             this.m_EnableDTR.Text = "Enable &DTR";
             this.m_EnableDTR.UseVisualStyleBackColor = true;
-            // 
-            // label3
-            // 
-            label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            label3.AutoSize = true;
-            label3.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            label3.Location = new System.Drawing.Point(3, 133);
-            label3.Name = "label3";
-            label3.Size = new System.Drawing.Size(81, 13);
-            label3.TabIndex = 7;
-            label3.Text = "Options:";
             // 
             // m_EnableRTS
             // 
@@ -176,17 +187,6 @@
             this.m_Connect.UseVisualStyleBackColor = true;
             this.m_Connect.Click += new System.EventHandler(this.m_Connect_Click);
             // 
-            // label4
-            // 
-            label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            label4.AutoSize = true;
-            label4.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            label4.Location = new System.Drawing.Point(3, 102);
-            label4.Name = "label4";
-            label4.Size = new System.Drawing.Size(81, 13);
-            label4.TabIndex = 10;
-            label4.Text = "S&peed:";
-            // 
             // m_Speed
             // 
             this.m_Speed.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
@@ -195,6 +195,16 @@
             this.m_Speed.Size = new System.Drawing.Size(237, 22);
             this.m_Speed.TabIndex = 11;
             this.m_Speed.Text = "4800";
+            // 
+            // m_FlowControl
+            // 
+            this.m_FlowControl.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.m_FlowControl.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.m_FlowControl.FormattingEnabled = true;
+            this.m_FlowControl.Location = new System.Drawing.Point(90, 191);
+            this.m_FlowControl.Name = "m_FlowControl";
+            this.m_FlowControl.Size = new System.Drawing.Size(237, 21);
+            this.m_FlowControl.TabIndex = 13;
             // 
             // label5
             // 
@@ -206,16 +216,6 @@
             label5.Size = new System.Drawing.Size(81, 13);
             label5.TabIndex = 12;
             label5.Text = "&Flow control:";
-            // 
-            // m_FlowControl
-            // 
-            this.m_FlowControl.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.m_FlowControl.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.m_FlowControl.FormattingEnabled = true;
-            this.m_FlowControl.Location = new System.Drawing.Point(90, 191);
-            this.m_FlowControl.Name = "m_FlowControl";
-            this.m_FlowControl.Size = new System.Drawing.Size(237, 21);
-            this.m_FlowControl.TabIndex = 13;
             // 
             // label6
             // 

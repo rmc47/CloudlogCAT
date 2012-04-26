@@ -42,6 +42,7 @@
     <Compile Include="CAT\GenericCATRadio.cs" />
     <Compile Include="Elecraft\K3.cs" />
     <Compile Include="FlowControl.cs" />
+    <Compile Include="Icom\GenericIcom.cs" />
     <Compile Include="IRadio.cs" />
     <Compile Include="OperatingMode.cs" />
     <Compile Include="RadioConnectionSettings.cs" />
