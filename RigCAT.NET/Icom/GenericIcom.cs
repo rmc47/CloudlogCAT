@@ -35,7 +35,7 @@ namespace RigCAT.NET.Icom
             get
             {
                 if (m_Mode == OperatingMode.Unknown)
-                    QueryFrequency();
+                    QueryMode();
                 return m_Mode;
             }
             set
@@ -67,6 +67,17 @@ namespace RigCAT.NET.Icom
             m_CommandReadResetEvent.WaitOne(500);
             m_CommandReadResetEvent.Reset();
             buff[4] = 0x04;
+            // Wait for the buffer to empty or we get a collision on the wire
+            //while (m_Port.BytesToRead > 0)
+            //    Thread.Sleep(100);
+            m_Port.Write(buff, 0, buff.Length);
+            m_CommandReadResetEvent.WaitOne(500);
+        }
+
+        public void QueryMode()
+        {
+            m_CommandReadResetEvent.Reset();
+            byte[] buff = new byte[] { 0xFE, 0xFE, 0x00, 0xE0, 0x04, 0xFD };
             // Wait for the buffer to empty or we get a collision on the wire
             //while (m_Port.BytesToRead > 0)
             //    Thread.Sleep(100);
@@ -121,6 +132,7 @@ namespace RigCAT.NET.Icom
                             if (freq > 0 && freq < 10000000000)
                             {
                                 m_Frequency = freq;
+                                m_CommandReadResetEvent.Set();
                                 if (FrequencyChanged != null)
                                     FrequencyChanged(this, new EventArgs());
                             }
@@ -158,6 +170,7 @@ namespace RigCAT.NET.Icom
                             {
                                 m_Mode = mode;
                             }
+                            m_CommandReadResetEvent.Set();
                             if (FrequencyChanged != null)
                                 FrequencyChanged(this, new EventArgs());
                         }
