@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.IO.Ports;
 using System.IO;
+using System.Threading;
 
 namespace RigCAT.NET.CAT
 {
@@ -13,6 +14,7 @@ namespace RigCAT.NET.CAT
         private SerialPort m_SerialPort;
         private char[] m_ReceiveBuffer = new char[0x1000];
         private StreamWriter m_LogWriter;
+        private Thread m_PollThread;
 
         protected abstract string RadioModelName { get; }
         protected abstract string GetModeCommand { get; }
@@ -42,9 +44,37 @@ namespace RigCAT.NET.CAT
             string logPath = Path.Combine(logsFolder, "CloudlogCAT-" + DateTime.Now.ToString("yyyy-MM-dd-hhmmss") + ".txt");
             m_LogWriter = new StreamWriter(logPath);
             m_LogWriter.AutoFlush = true;
+
+            m_PollThread = new Thread(PollMethod);
+            m_PollThread.IsBackground = true;
+            m_PollThread.Start();
         }
 
         public event EventHandler<EventArgs> FrequencyChanged;
+
+        private void PollMethod(object state)
+        {
+            long lastFrequency = 0;
+            OperatingMode lastMode = OperatingMode.Unknown;
+            while (true)
+            {
+                try
+                {
+                    long newFrequency = PrimaryFrequency;
+                    OperatingMode newMode = PrimaryMode;
+                    if (newFrequency != lastFrequency || newMode != lastMode)
+                    {
+                        if (FrequencyChanged != null)
+                            FrequencyChanged(this, new EventArgs());
+                    }
+                    Thread.Sleep(2000);
+                }
+                catch (Exception ex)
+                {
+                    ;
+                }
+            }
+        }
 
         public long PrimaryFrequency
         {
