@@ -7,7 +7,7 @@ using System.IO;
 
 namespace RigCAT.NET.CAT
 {
-    internal abstract class GenericCATRadio : IRadio
+    public abstract class GenericCATRadio : IRadio
     {
         private RadioConnectionSettings ConnectionSettings { get; set; }
         private SerialPort m_SerialPort;
@@ -83,7 +83,12 @@ namespace RigCAT.NET.CAT
             }
         }
 
-        private string SendQuery(string cmd)
+        protected string SendQuery(string cmd)
+        {
+            return SendQuery(cmd, true);
+        }
+
+        protected string SendQuery(string cmd, bool expectReply)
         {
             lock (m_SerialPort)
             {
@@ -105,39 +110,46 @@ namespace RigCAT.NET.CAT
                 m_SerialPort.WriteLine(cmd);
 
                 // Wait for the reply
-                int justRead = 1;
-                int pos = 0;
-                m_SerialPort.ReadTimeout = 2000;
-                while (justRead > 0)
+                if (expectReply)
                 {
-                    justRead = m_SerialPort.Read(m_ReceiveBuffer, pos, m_ReceiveBuffer.Length - pos);
-                    pos += justRead;
-
-                    // If we ended with the end of the command, stop trying to read more...
-                    if (m_ReceiveBuffer[pos - 1] == ';')
+                    int justRead = 1;
+                    int pos = 0;
+                    m_SerialPort.ReadTimeout = 2000;
+                    while (justRead > 0)
                     {
-                        break;
+                        justRead = m_SerialPort.Read(m_ReceiveBuffer, pos, m_ReceiveBuffer.Length - pos);
+                        pos += justRead;
+
+                        // If we ended with the end of the command, stop trying to read more...
+                        if (m_ReceiveBuffer[pos - 1] == ';')
+                        {
+                            break;
+                        }
                     }
-                }
 
-                // Turn it into a string
-                string response = new string(m_ReceiveBuffer, 0, pos);
+                    // Turn it into a string
+                    string response = new string(m_ReceiveBuffer, 0, pos);
 
-                m_LogWriter.WriteLine("RAW: " + response);
+                    m_LogWriter.WriteLine("RAW: " + response);
 
-                // Trim any excess garbage (Looking at you, FT-950)
-                int responseStart = response.IndexOf(cmd.Substring(0, 2));
-                int responseEnd = response.IndexOf(';', responseStart);
-                if (responseStart < 0 || responseEnd < 0)
-                {
-                    m_LogWriter.WriteLine("RCV: [Command not found]");
-                    return string.Empty;
+                    // Trim any excess garbage (Looking at you, FT-950)
+                    int responseStart = response.IndexOf(cmd.Substring(0, 2));
+                    int responseEnd = response.IndexOf(';', responseStart);
+                    if (responseStart < 0 || responseEnd < 0)
+                    {
+                        m_LogWriter.WriteLine("RCV: [Command not found]");
+                        return string.Empty;
+                    }
+                    else
+                    {
+                        string trimmedResponse = response.Substring(responseStart, responseEnd - responseStart + 1);
+                        m_LogWriter.WriteLine("RCV: " + trimmedResponse);
+                        return trimmedResponse;
+                    }
                 }
                 else
                 {
-                    string trimmedResponse = response.Substring(responseStart, responseEnd - responseStart + 1);
-                    m_LogWriter.WriteLine("RCV: " + trimmedResponse);
-                    return trimmedResponse;
+                    return null;
                 }
             }
         }

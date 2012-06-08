@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using RigCAT.NET;
 using CloudlogCAT.API;
 using System.Threading;
+using System.Diagnostics;
 
 namespace CloudlogCAT
 {
@@ -135,6 +136,14 @@ namespace CloudlogCAT
                     }));
                 }
                 Thread.Sleep(1000);
+            }
+        }
+
+        private void m_SpeakersOn_Click(object sender, EventArgs e)
+        {
+            if (m_Radio is RigCAT.NET.Elecraft.K3)
+            {
+                Debug.WriteLine(((RigCAT.NET.Elecraft.K3)m_Radio).SpeakersAndPhones);
             }
         }
     }
