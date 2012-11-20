@@ -90,6 +90,36 @@ namespace CloudlogCAT
             }
             m_FlowControl.EndUpdate();
             m_FlowControl.SelectedIndex = 0;
+
+            // Load from registry if applicable
+            m_LogbookURL.Text = Settings.Get("LogbookURL", m_LogbookURL.Text);
+            m_Speed.Text = Settings.Get("Speed", m_Speed.Text);
+            RadioModel radioModel;
+            if (Enum.TryParse<RadioModel>(Settings.Get("RadioType", null), out radioModel))
+                m_RadioType.SelectedItem = radioModel;
+            string serialPort = Settings.Get("SerialPort", null);
+            if (serialPort != null && m_SerialPort.Items.Contains(serialPort))
+                m_SerialPort.SelectedItem = serialPort;
+            FlowControl flowControl;
+            if (Enum.TryParse<FlowControl>(Settings.Get("FlowControl", null), out flowControl))
+                m_FlowControl.SelectedItem = flowControl;
+            m_EnableDTR.Checked = bool.Parse(Settings.Get("EnableDTR", "False"));
+            m_EnableRTS.Checked = bool.Parse(Settings.Get("EnableRTS", "False"));
+        }
+
+        private void ConnectionForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (DialogResult != System.Windows.Forms.DialogResult.OK)
+                return;
+
+            // Persist back to registry
+            Settings.Set("LogbookURL", m_LogbookURL.Text);
+            Settings.Set("Speed", m_Speed.Text);
+            Settings.Set("RadioType", m_RadioType.SelectedItem.ToString());
+            Settings.Set("SerialPort", m_SerialPort.SelectedItem.ToString());
+            Settings.Set("FlowControl", m_FlowControl.SelectedItem.ToString());
+            Settings.Set("EnableDTR", m_EnableDTR.Checked.ToString());
+            Settings.Set("EnableRTS", m_EnableRTS.Checked.ToString());
         }
     }
 }
