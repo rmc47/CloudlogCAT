@@ -14,9 +14,14 @@ namespace CloudlogCAT
         [STAThread]
         static void Main()
         {
-            
             var nancyHost = new HttpServer.HttpHost(new IPEndPoint(IPAddress.Any, 8083));
-            nancyHost.Start();
+            try
+            {
+                nancyHost.Start();
+            }
+            catch
+            {
+            }
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new MainForm());
