@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
+using System.Net;
 
 namespace CloudlogCAT
 {
@@ -13,9 +14,13 @@ namespace CloudlogCAT
         [STAThread]
         static void Main()
         {
+            
+            var nancyHost = new HttpServer.HttpHost(new IPEndPoint(IPAddress.Any, 8083));
+            nancyHost.Start();
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new MainForm());
+            nancyHost.Stop();
         }
     }
 }
