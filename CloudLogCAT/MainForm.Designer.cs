@@ -174,6 +174,7 @@
             this.MaximizeBox = false;
             this.Name = "MainForm";
             this.Text = "CAT for Cloudlog";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.Shown += new System.EventHandler(this.MainForm_Shown);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();

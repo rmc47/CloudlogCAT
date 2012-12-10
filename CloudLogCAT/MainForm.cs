@@ -10,6 +10,7 @@ using RigCAT.NET;
 using CloudlogCAT.API;
 using System.Threading;
 using System.Diagnostics;
+using System.Net;
 
 namespace CloudlogCAT
 {
@@ -18,6 +19,7 @@ namespace CloudlogCAT
         private IRadio m_Radio;
         private CloudlogAPI m_API;
         private Thread m_UpdateThread;
+        private CloudlogCAT.HttpServer.HttpHost m_HttpHost;
 
         public MainForm()
         {
@@ -59,6 +61,10 @@ namespace CloudlogCAT
                 m_UpdateThread = new Thread(UpdateFrequency);
                 m_UpdateThread.IsBackground = true;
                 m_UpdateThread.Start();
+
+                m_HttpHost = new HttpServer.HttpHost(new System.Net.IPEndPoint(IPAddress.Any, int.Parse(Settings.Get("ServerPort", Settings.DEFAULT_PORT))));
+                m_HttpHost.Start();
+                RigStatusServer.Radio = m_Radio;
             }
             catch (Exception ex)
             {
@@ -144,6 +150,15 @@ namespace CloudlogCAT
             if (m_Radio is RigCAT.NET.Elecraft.K3)
             {
                 Debug.WriteLine(((RigCAT.NET.Elecraft.K3)m_Radio).SpeakersAndPhones);
+            }
+        }
+
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (m_HttpHost != null)
+            {
+                m_HttpHost.Stop();
+                m_HttpHost = null;
             }
         }
     }

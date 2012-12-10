@@ -26,8 +26,7 @@ namespace CloudlogCAT.HttpServer
 
         private void RequestReadCompleted(HttpRequestHead head, Stream requestStream, IHttpResponseDelegate response)
         {
-#warning wrong hard-coded base URI
-            Uri baseUri = new Uri("http://localhost:8083/");
+            Uri baseUri = new Uri("http://localhost/");
             Uri requestUrl = new Uri(baseUri, head.Uri);
             Url nancyUrl = new Url
             {

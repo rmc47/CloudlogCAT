@@ -10,6 +10,8 @@ namespace CloudlogCAT
     {
         private const string c_Key = @"SOFTWARE\M0VFC\CloudLogCAT";
 
+        public const string DEFAULT_PORT = "25228"; // CLCAT
+
         public static string Get(string key, string defaultValue)
         {
             using (RegistryKey regKey = Registry.CurrentUser.OpenSubKey(c_Key, false))
