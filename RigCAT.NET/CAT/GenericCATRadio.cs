@@ -164,7 +164,12 @@ namespace RigCAT.NET.CAT
 
                     // Trim any excess garbage (Looking at you, FT-950)
                     int responseStart = response.IndexOf(cmd.Substring(0, 2));
-                    int responseEnd = response.IndexOf(';', responseStart);
+                    int responseEnd;
+                    if (responseStart >= 0)
+                        responseEnd = response.IndexOf(';', responseStart);
+                    else
+                        responseEnd = -1;
+
                     if (responseStart < 0 || responseEnd < 0)
                     {
                         m_LogWriter.WriteLine("RCV: [Command not found]");
