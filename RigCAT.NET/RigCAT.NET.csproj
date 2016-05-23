@@ -45,6 +45,7 @@
     <Compile Include="FlowControl.cs" />
     <Compile Include="Icom\GenericIcom.cs" />
     <Compile Include="IRadio.cs" />
+    <Compile Include="IWinKey.cs" />
     <Compile Include="OperatingMode.cs" />
     <Compile Include="RadioConnectionSettings.cs" />
     <Compile Include="RadioFactory.cs" />

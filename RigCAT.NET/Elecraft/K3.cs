@@ -8,7 +8,7 @@ using RigCAT.NET.CAT;
 
 namespace RigCAT.NET.Elecraft
 {
-    public sealed class K3 : GenericCATRadio
+    public sealed class K3 : GenericCATRadio, IWinKey
     {
         public K3(RadioConnectionSettings rcs)
             : base(rcs)
@@ -38,6 +38,16 @@ namespace RigCAT.NET.Elecraft
             {
 
             }
+        }
+
+        public void SendString(string str)
+        {
+            SendQuery("KY " + str + ";", false);
+        }
+
+        public void StopSending()
+        {
+            SendQuery("RX;", false);
         }
     }
 }

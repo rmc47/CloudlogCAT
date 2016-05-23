@@ -10,6 +10,8 @@ namespace RigCAT.NET
         event EventHandler<EventArgs> FrequencyChanged;
 
         long PrimaryFrequency { get; set; }
+        long SecondaryFrequency { get; set; }
         OperatingMode PrimaryMode { get; set; }
+        void EqualiseVFOs();
     }
 }

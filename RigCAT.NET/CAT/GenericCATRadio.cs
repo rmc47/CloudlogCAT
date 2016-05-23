@@ -93,6 +93,23 @@ namespace RigCAT.NET.CAT
             }
         }
 
+        public long SecondaryFrequency
+        {
+            get
+            {
+                string s = SendQuery("FB;");
+                if (s.Length < 4)
+                    return 0;
+                long freq;
+                long.TryParse(s.Substring(2, s.Length - 3), out freq);
+                return freq;
+            }
+            set
+            {
+                m_SerialPort.WriteLine(string.Format("FB{0:00000000000};", value));
+            }
+        }
+
         public OperatingMode PrimaryMode
         {
             get
@@ -111,6 +128,11 @@ namespace RigCAT.NET.CAT
             {
                 throw new NotImplementedException();
             }
+        }
+
+        public void EqualiseVFOs()
+        {
+            ;
         }
 
         protected string SendQuery(string cmd)

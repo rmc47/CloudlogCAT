@@ -26,7 +26,25 @@ namespace RigCAT.NET.Icom
                 return m_Frequency; 
             }
             set {
-                ;
+                SelectVfoA();
+                m_Frequency = value;
+                SetFrequency();
+            }
+        }
+
+        public long SecondaryFrequency
+        {
+            get
+            {
+                if (m_Frequency == 0)
+                    QueryFrequency();
+                return m_Frequency;
+            }
+            set
+            {
+                SelectVfoB();
+                m_Frequency = value;
+                SetFrequency();
             }
         }
 
@@ -70,6 +88,51 @@ namespace RigCAT.NET.Icom
             // Wait for the buffer to empty or we get a collision on the wire
             //while (m_Port.BytesToRead > 0)
             //    Thread.Sleep(100);
+            m_Port.Write(buff, 0, buff.Length);
+            m_CommandReadResetEvent.WaitOne(500);
+        }
+
+        private void SetFrequency()
+        {
+            m_CommandReadResetEvent.Reset();
+
+            byte[] bcdFrequency = FrequencyToBcd(this.PrimaryFrequency);
+            byte[] header = new byte[] { 0xFE, 0xFE, 0x00, 0xE0, 0x05 };
+            byte[] buff = new byte[header.Length + bcdFrequency.Length + 1];
+            Buffer.BlockCopy(header, 0, buff, 0, header.Length);
+            Buffer.BlockCopy(bcdFrequency, 0, buff, header.Length, bcdFrequency.Length);
+            Buffer.SetByte(buff, buff.Length - 1, 0xFD);
+            
+            m_Port.Write(buff, 0, buff.Length);
+            m_CommandReadResetEvent.WaitOne(500);
+        }
+
+        private void SelectVfoB()
+        {
+            m_CommandReadResetEvent.Reset();
+
+            byte[] buff = new byte[] { 0xFE, 0xFE, 0x00, 0xE0, 0x07, 0x01, 0xFD };
+
+            m_Port.Write(buff, 0, buff.Length);
+            m_CommandReadResetEvent.WaitOne(500);
+        }
+
+        private void SelectVfoA()
+        {
+            m_CommandReadResetEvent.Reset();
+
+            byte[] buff = new byte[] { 0xFE, 0xFE, 0x00, 0xE0, 0x07, 0x00, 0xFD };
+
+            m_Port.Write(buff, 0, buff.Length);
+            m_CommandReadResetEvent.WaitOne(500);
+        }
+
+        public void EqualiseVFOs()
+        {
+            m_CommandReadResetEvent.Reset();
+
+            byte[] buff = new byte[] { 0xFE, 0xFE, 0x00, 0xE0, 0x07, 0xA0, 0xFD };
+
             m_Port.Write(buff, 0, buff.Length);
             m_CommandReadResetEvent.WaitOne(500);
         }
@@ -188,7 +251,7 @@ namespace RigCAT.NET.Icom
             }
         }
 
-        private long ParseBcd(byte[] buff, int offset, int count)
+        public static long ParseBcd(byte[] buff, int offset, int count)
         {
             long result = 0;
             for (int i = offset+count-1; i >= offset; i--)
@@ -198,6 +261,21 @@ namespace RigCAT.NET.Icom
                 result += ((buff[i] & 0xF0) >> 4) * 10;
             }
             return result;
+        }
+
+        public static byte[] FrequencyToBcd(long freq)
+        {
+            int chunks = (int)Math.Floor(Math.Log10(freq) / 2) + 1;
+            byte[] bytes = new byte[chunks];
+            for (int i = 0; i < chunks; i++)
+            {
+                int rem = (int)(freq % 100);
+                freq /= 100;
+
+
+                bytes[i] = (byte)((rem % 10) + ((rem / 10) << 4));
+            }
+            return bytes;
         }
 
         protected string RadioModelName
