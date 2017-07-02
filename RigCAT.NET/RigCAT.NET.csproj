@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>RigCAT.NET</RootNamespace>
     <AssemblyName>RigCAT.NET</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <OutputPath>$(SolutionDir)Build\$(Configuration)</OutputPath>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
