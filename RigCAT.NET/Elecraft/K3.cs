@@ -8,7 +8,7 @@ using RigCAT.NET.CAT;
 
 namespace RigCAT.NET.Elecraft
 {
-    public sealed class K3 : GenericCATRadio, IWinKey
+    public sealed class K3 : GenericCATRadio, IWinKey, IVoiceKeyer
     {
         public K3(RadioConnectionSettings rcs)
             : base(rcs)
