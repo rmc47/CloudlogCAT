@@ -13,6 +13,7 @@ namespace RigCAT.NET.CAT
         private RadioConnectionSettings ConnectionSettings { get; set; }
         private SerialPort m_SerialPort;
         private char[] m_ReceiveBuffer = new char[0x1000];
+        private const bool c_EnableLogging = false;
         private StreamWriter m_LogWriter;
         private Thread m_PollThread;
 
@@ -38,12 +39,15 @@ namespace RigCAT.NET.CAT
             }
             m_SerialPort.Open();
 
-            string logsFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Cloudlog\\Logs");
-            if (!Directory.Exists(logsFolder))
-                Directory.CreateDirectory(logsFolder);
-            string logPath = Path.Combine(logsFolder, "CloudlogCAT-" + DateTime.Now.ToString("yyyy-MM-dd-hhmmss") + ".txt");
-            m_LogWriter = new StreamWriter(logPath);
-            m_LogWriter.AutoFlush = true;
+            if (c_EnableLogging)
+            {
+                string logsFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Cloudlog\\Logs");
+                if (!Directory.Exists(logsFolder))
+                    Directory.CreateDirectory(logsFolder);
+                string logPath = Path.Combine(logsFolder, "CloudlogCAT-" + DateTime.Now.ToString("yyyy-MM-dd-hhmmss") + ".txt");
+                m_LogWriter = new StreamWriter(logPath);
+                m_LogWriter.AutoFlush = true;
+            }
 
             m_PollThread = new Thread(PollMethod);
             m_PollThread.IsBackground = true;
@@ -144,7 +148,8 @@ namespace RigCAT.NET.CAT
         {
             lock (m_SerialPort)
             {
-                m_LogWriter.WriteLine("SEND: " + cmd);
+                if (c_EnableLogging)
+                    m_LogWriter.WriteLine("SEND: " + cmd);
 
                 // Check the serial port is open
                 if (!m_SerialPort.IsOpen)
@@ -182,7 +187,8 @@ namespace RigCAT.NET.CAT
                     // Turn it into a string
                     string response = new string(m_ReceiveBuffer, 0, pos);
 
-                    m_LogWriter.WriteLine("RAW: " + response);
+                    if (c_EnableLogging)
+                        m_LogWriter.WriteLine("RAW: " + response);
 
                     // Trim any excess garbage (Looking at you, FT-950)
                     int responseStart = response.IndexOf(cmd.Substring(0, 2));
@@ -194,13 +200,15 @@ namespace RigCAT.NET.CAT
 
                     if (responseStart < 0 || responseEnd < 0)
                     {
-                        m_LogWriter.WriteLine("RCV: [Command not found]");
+                        if (c_EnableLogging)
+                            m_LogWriter.WriteLine("RCV: [Command not found]");
                         return string.Empty;
                     }
                     else
                     {
                         string trimmedResponse = response.Substring(responseStart, responseEnd - responseStart + 1);
-                        m_LogWriter.WriteLine("RCV: " + trimmedResponse);
+                        if (c_EnableLogging)
+                            m_LogWriter.WriteLine("RCV: " + trimmedResponse);
                         return trimmedResponse;
                     }
                 }
