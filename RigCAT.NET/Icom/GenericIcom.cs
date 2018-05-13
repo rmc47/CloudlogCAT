@@ -301,5 +301,15 @@ namespace RigCAT.NET.Icom
             m_Port.Write(buff, 0, buff.Length);
             m_CommandReadResetEvent.WaitOne(500);
         }
+
+        public void CancelDvk()
+        {
+            m_CommandReadResetEvent.Reset();
+
+            byte[] buff = new byte[] { 0xFE, 0xFE, 0x00, 0xE0, 0x28, 0x00, 0x00, 0xFD };
+
+            m_Port.Write(buff, 0, buff.Length);
+            m_CommandReadResetEvent.WaitOne(500);
+        }
     }
 }

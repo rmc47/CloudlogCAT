@@ -8,5 +8,6 @@ namespace RigCAT.NET
     public interface IVoiceKeyer
     {
         void SendDvk(int messageNumber);
+        void CancelDvk();
     }
 }

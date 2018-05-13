@@ -64,5 +64,10 @@ namespace RigCAT.NET.Elecraft
 
             SendQuery("SWT" + switchNumber + ";", false);
         }
+
+        public void CancelDvk()
+        {
+            StopSending();
+        }
     }
 }
