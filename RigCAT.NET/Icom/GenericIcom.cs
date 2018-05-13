@@ -7,7 +7,7 @@ using System.Threading;
 
 namespace RigCAT.NET.Icom
 {
-    public class GenericIcom : IRadio
+    public class GenericIcom : IRadio, IVoiceKeyer
     {
         private SerialPort m_Port;
 
@@ -290,6 +290,16 @@ namespace RigCAT.NET.Icom
         public void Dispose()
         {
             m_Stopping = true;
+        }
+
+        public void SendDvk(int messageNumber)
+        {
+            m_CommandReadResetEvent.Reset();
+
+            byte[] buff = new byte[] { 0xFE, 0xFE, 0x00, 0xE0, 0x28, 0x00, (byte)messageNumber, 0xFD };
+
+            m_Port.Write(buff, 0, buff.Length);
+            m_CommandReadResetEvent.WaitOne(500);
         }
     }
 }
