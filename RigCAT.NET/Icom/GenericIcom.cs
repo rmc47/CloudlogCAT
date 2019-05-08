@@ -7,7 +7,7 @@ using System.Threading;
 
 namespace RigCAT.NET.Icom
 {
-    public class GenericIcom : IRadio, IVoiceKeyer
+    public class GenericIcom : IRadio, IVoiceKeyer, IWinKey
     {
         private SerialPort m_Port;
 
@@ -307,6 +307,32 @@ namespace RigCAT.NET.Icom
             m_CommandReadResetEvent.Reset();
 
             byte[] buff = new byte[] { 0xFE, 0xFE, 0x00, 0xE0, 0x28, 0x00, 0x00, 0xFD };
+
+            m_Port.Write(buff, 0, buff.Length);
+            m_CommandReadResetEvent.WaitOne(500);
+        }
+
+        public void SendString(string str)
+        {
+            m_CommandReadResetEvent.Reset();
+
+            byte[] header = new byte[] { 0xFE, 0xFE, 0x00, 0xE0, 0x17 };
+            byte[] strBytes = Encoding.ASCII.GetBytes(str);
+
+            byte[] msg = new byte[header.Length + strBytes.Length + 1];
+            Buffer.BlockCopy(header, 0, msg, 0, header.Length);
+            Buffer.BlockCopy(strBytes, 0, msg, header.Length, strBytes.Length);
+            msg[msg.Length - 1] = 0xFD;
+
+            m_Port.Write(msg, 0, msg.Length);
+            m_CommandReadResetEvent.WaitOne(500);
+        }
+
+        public void StopSending()
+        {
+            m_CommandReadResetEvent.Reset();
+
+            byte[] buff = new byte[] { 0xFE, 0xFE, 0x00, 0xE0, 0x17, 0xFF, 0xFD };
 
             m_Port.Write(buff, 0, buff.Length);
             m_CommandReadResetEvent.WaitOne(500);
